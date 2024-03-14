@@ -1,11 +1,11 @@
-FROM node:20-alpine as build
+FROM node:20 as build
 WORKDIR /opt/app
 ADD package*.json ./
-RUN npm install
+RUN npm ci
 ADD . .
 RUN npx nx run api:build:production
 
-FROM node:20-alpine
+FROM node:20
 WORKDIR /opt/app
 COPY --from=build /opt/app/dist/apps/api ./dist
 RUN cd ./dist && npm ci --omit=dev
