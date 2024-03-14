@@ -39,11 +39,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: SSH into server update api service to latest
-        uses: appleboy/ssh-action@v1.0.3
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_KEY }}
           port: ${{ secrets.SERVER_SSH_PORT }}
-          script: |
-            docker service update --force --image ${{ secrets.DOCKER_USERNAME }}/api:latest api_api
+          script: docker service update --force --image ${{ secrets.DOCKER_USERNAME }}/api:latest api_api
