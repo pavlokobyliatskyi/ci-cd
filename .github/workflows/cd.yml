@@ -27,19 +27,23 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Docker build and push image
-        run: docker buildx build -t ${{ secrets.DOCKER_USERNAME }}/api:latest --push --platform linux/arm64 .
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/api:latest
+          platforms: linux/arm64
 
   deploy:
     needs: [build]
     runs-on: ubuntu-latest
     steps:
       - name: SSH into server update api service to latest
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USERNAME }}
-          password: ${{ secrets.SERVER_PASSWORD }}
+          key: ${{ secrets.SERVER_KEY }}
           port: ${{ secrets.SERVER_SSH_PORT }}
           script: |
             docker service update --force --image ${{ secrets.DOCKER_USERNAME }}/api:latest api_api
