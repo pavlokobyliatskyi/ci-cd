@@ -14,24 +14,39 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      # Cache node_modules
-      - uses: actions/setup-node@v3
+
+      - name: Setup node.js
+        uses: actions/setup-node@v3
         with:
           node-version: 20
           cache: 'npm'
-      - run: nx run api:lint
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Run lint
+        run: nx run api:lint
+
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      # Cache node_modules
-      - uses: actions/setup-node@v3
+
+      - name: Setup node.js
+        uses: actions/setup-node@v3
         with:
           node-version: 20
           cache: 'npm'
-      - run: nx run api:test:ci
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Run tests
+        run: nx run api:test
