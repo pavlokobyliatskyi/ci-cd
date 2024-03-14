@@ -11,8 +11,8 @@ permissions:
   contents: read
 
 jobs:
-  main:
-    runs-on: ubuntu-22.04.4
+  lint:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
@@ -22,4 +22,16 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
-      - run: npm --version
+      - run: nx run api:lint
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      # Cache node_modules
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: 'npm'
+      - run: nx run api:test:ci
