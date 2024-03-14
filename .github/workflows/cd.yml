@@ -39,4 +39,4 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_SSH_PORT }}
           script: |
-            docker service update --image ${{ secrets.DOCKER_USERNAME }}/api:latest api_api
+            docker service update --force --image ${{ secrets.DOCKER_USERNAME }}/api:latest api_api

@@ -1,7 +1,7 @@
 FROM node:20-alpine as build
 WORKDIR /opt/app
 ADD package*.json ./
-RUN npm ci
+RUN npm install
 ADD . .
 RUN npx nx run api:build:production
 
