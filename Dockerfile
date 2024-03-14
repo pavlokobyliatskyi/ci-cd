@@ -1,12 +1,12 @@
 FROM node:20 as build
 WORKDIR /opt/app
 ADD package*.json ./
-RUN npm ci
+RUN npm ci --ignore-engines
 ADD . .
 RUN npx nx run api:build:production
 
 FROM node:20
 WORKDIR /opt/app
 COPY --from=build /opt/app/dist/apps/api ./dist
-RUN cd ./dist && npm ci --omit=dev
+RUN cd ./dist && npm ci --omit=dev --ignore-engines
 CMD [ "node", "./dist/main.js" ]
