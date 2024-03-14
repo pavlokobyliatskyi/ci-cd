@@ -23,6 +23,7 @@ jobs:
 
       - name: Docker build image as latest version
         run: docker build -t ${{ secrets.DOCKER_USERNAME }}/api:latest --platform linux/arm64 .
+        timeout-minutes: 10
 
       - name: Docker push to Docker Hub
         run: docker push ${{ secrets.DOCKER_USERNAME }}/api:latest
